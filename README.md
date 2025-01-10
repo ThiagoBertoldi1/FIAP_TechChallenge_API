@@ -2,7 +2,9 @@
 
 ## Imagem do SQL Server usada para rodar o banco no Docker Desktop
 
+```bash
 mcr.microsoft.com/mssql/server:2022-latest
+```
 
 ## Environment Variables do container do Docker
 ```bash
@@ -13,7 +15,7 @@ SA_PASSWORD=AquiVaiSuaSenhaForte
 ## Script para criar a tabela dbo.Contact
 
 ```sql
-USE [TechChallenge]
+USE [TechChallenge] -- Banco já criado, nenhuma configuração adicional
 GO
 
 SET ANSI_NULLS ON
