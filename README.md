@@ -4,6 +4,12 @@
 
 mcr.microsoft.com/mssql/server:2022-latest
 
+## Environment Variables do container do Docker
+```bash
+ACCEPT_EULA=Y
+SA_PASSWORD=AquiVaiSuaSenhaForte
+```
+
 ## Script para criar a tabela dbo.Contact
 
 ```sql
