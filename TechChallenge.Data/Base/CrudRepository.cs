@@ -34,11 +34,11 @@ public class CrudRepository<T>(IConfiguration configuration) : ICrudRepository<T
         throw new NotImplementedException();
     }
 
-    public async Task<List<T?>> RawQueryAsync(string sql, CancellationToken cancellationToken = default)
+    public async Task<List<T>> RawQueryAsync(string sql, CancellationToken cancellationToken = default)
     {
         using var conn = new SqlConnection(_connString);
         await conn.OpenAsync(cancellationToken);
-        return (await conn.QueryAsync<T?>(sql, cancellationToken)).ToList();
+        return (await conn.QueryAsync<T>(sql, cancellationToken)).ToList();
     }
 
     public async Task<T?> RawQueryFirstOrDefaultAsync(string sql, CancellationToken cancellationToken = default)

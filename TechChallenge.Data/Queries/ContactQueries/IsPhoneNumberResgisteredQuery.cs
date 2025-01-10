@@ -1,7 +1,7 @@
 ﻿namespace TechChallenge.Data.Queries.ContactQueries;
 public class IsPhoneNumberResgisteredQuery(long phoneNumber)
 {
-    public long PhoneNumber { get; set; } = phoneNumber;
+    private long PhoneNumber { get; set; } = phoneNumber;
 
     public string GetSql()
         => $@"

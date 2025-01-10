@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.Net;
 using TechChallenge.Domain.Commands.ContactCommands.Create;
+using TechChallenge.Domain.Commands.ContactCommands.Select;
 using TechChallenge.Domain.Entities;
 using TechChallenge.Domain.Interface;
 using TechChallenge.Domain.Validations;
@@ -9,7 +10,8 @@ using TechChallenge.Infra.Responses;
 
 namespace TechChallenge.Domain.Commands.ContactCommands;
 public class ContactHandler(IContactRepository contactRepository) :
-    IRequestHandler<CreateContactCommand, ResponseBase<Contact>>
+    IRequestHandler<CreateContactCommand, ResponseBase<Contact>>,
+    IRequestHandler<GetContactListCommand, ResponseBase<List<Contact>>>
 {
     private readonly IContactRepository _contactRepository = contactRepository;
 
@@ -39,5 +41,12 @@ public class ContactHandler(IContactRepository contactRepository) :
             return ResponseBase<Contact>.Fault(HttpStatusCode.InternalServerError, ["Usuário não inserido"]);
 
         return ResponseBase<Contact>.Create(entity);
+    }
+
+    public async Task<ResponseBase<List<Contact>>> Handle(GetContactListCommand filters, CancellationToken cancellationToken)
+    {
+        var response = await _contactRepository.GetContactList(filters, cancellationToken);
+
+        return ResponseBase<List<Contact>>.Create(response);
     }
 }

@@ -9,5 +9,4 @@ public class Contact : IEntity
     public long PhoneNumber { get; set; } = 0;
     public string Region { get; set; } = string.Empty;
     public string District { get; set; } = string.Empty;
-
 }

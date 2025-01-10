@@ -7,7 +7,7 @@ namespace TechChallenge.API.Controllers.BaseController;
 
 [ApiController]
 [Route("api/[controller]")]
-
+[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseBase<>))]
 public class APIControllerBase(IMediator mediator) : ControllerBase
 {
     protected IMediator _mediator = mediator;
