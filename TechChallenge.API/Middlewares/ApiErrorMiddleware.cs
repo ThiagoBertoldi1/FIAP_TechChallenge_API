@@ -29,14 +29,13 @@ public class ApiErrorMiddleware(RequestDelegate next)
 
         if (exception is ApiTechChallengeException techChallengeException)
         {
-            var response = ResponseBase<IEntity>.Fault(techChallengeException.StatusCode, techChallengeException.Errors);
+            var response = ResponseBase<IEntity>.Error(techChallengeException.StatusCode, techChallengeException.Errors);
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
         else
         {
-            var response = ResponseBase<IEntity>.Fault(HttpStatusCode.InternalServerError, ["Erro interno"]);
+            var response = ResponseBase<IEntity>.Error(HttpStatusCode.InternalServerError, ["Erro interno"]);
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
-
     }
 }

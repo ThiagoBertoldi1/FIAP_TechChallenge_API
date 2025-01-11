@@ -4,9 +4,9 @@ using TechChallenge.Domain.Entities;
 using TechChallenge.Infra.Exceptions;
 
 namespace TechChallenge.Domain.Validations;
-public class CreateContactValidation : AbstractValidator<Contact>
+public class ContactValidation : AbstractValidator<Contact>
 {
-    public void ContactValidation(Contact contact)
+    public void ContactValidator(Contact contact)
     {
         RuleFor(x => x.Email)
             .EmailAddress().WithMessage("Email inválido");

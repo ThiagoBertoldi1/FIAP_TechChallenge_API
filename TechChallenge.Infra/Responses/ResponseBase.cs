@@ -22,6 +22,6 @@ public class ResponseBase<T>
         Errors = errors;
     }
 
-    public static ResponseBase<T> Create(T? data) => new(data);
-    public static ResponseBase<T> Fault(HttpStatusCode httpStatusCode, List<string> errors) => new(httpStatusCode, errors);
+    public static ResponseBase<T> Success(T? data) => new(data);
+    public static ResponseBase<T> Error(HttpStatusCode httpStatusCode, List<string> errors) => new(httpStatusCode, errors);
 }
