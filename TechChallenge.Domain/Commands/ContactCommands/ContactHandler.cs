@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using System.Net;
 using TechChallenge.Domain.Commands.ContactCommands.Create;
 using TechChallenge.Domain.Commands.ContactCommands.Delete;
@@ -7,17 +8,21 @@ using TechChallenge.Domain.Commands.ContactCommands.Update;
 using TechChallenge.Domain.Entities;
 using TechChallenge.Domain.Interface;
 using TechChallenge.Domain.Validations;
+using TechChallenge.Infra.Helpers.Cache;
 using TechChallenge.Infra.Helpers.DDD;
 using TechChallenge.Infra.Responses;
 
 namespace TechChallenge.Domain.Commands.ContactCommands;
-public class ContactHandler(IContactRepository contactRepository) :
+public class ContactHandler(IMemoryCache memoryCache, IContactRepository contactRepository) :
     IRequestHandler<GetContactListCommand, ResponseBase<List<Contact>>>,
     IRequestHandler<CreateContactCommand, ResponseBase<string>>,
     IRequestHandler<UpdateContactCommand, ResponseBase<string>>,
     IRequestHandler<DeleteContactCommand, ResponseBase<string>>
 {
     private readonly IContactRepository _contactRepository = contactRepository;
+    private readonly IMemoryCache _memoryCache = memoryCache;
+
+    private readonly MemoryCacheEntryOptions _cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
 
     public async Task<ResponseBase<string>> Handle(CreateContactCommand request, CancellationToken cancellationToken)
     {
@@ -49,9 +54,15 @@ public class ContactHandler(IContactRepository contactRepository) :
 
     public async Task<ResponseBase<List<Contact>>> Handle(GetContactListCommand filters, CancellationToken cancellationToken)
     {
-        var response = await _contactRepository.GetContactList(filters, cancellationToken);
+        if (_memoryCache.TryGetValue(CacheHelper.CreateCacheKey(filters), out ResponseBase<List<Contact>>? cachedResponse)) return cachedResponse!;
 
-        return ResponseBase<List<Contact>>.Success(response);
+        var listContacts = await _contactRepository.GetContactList(filters, cancellationToken);
+
+        var response = ResponseBase<List<Contact>>.Success(listContacts);
+
+        _memoryCache.Set(CacheHelper.CreateCacheKey(filters), response, _cacheOptions);
+
+        return response;
     }
 
     public async Task<ResponseBase<string>> Handle(UpdateContactCommand request, CancellationToken cancellationToken)

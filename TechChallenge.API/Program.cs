@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.DIRepositoriesService();
 builder.Services.DIMediatorService();
+builder.Services.DIMemoryCacheService();
 
 var app = builder.Build();
 
