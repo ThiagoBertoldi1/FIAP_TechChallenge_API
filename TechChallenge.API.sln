@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.API", "TechChallenge.API\TechChallenge.API.csproj", "{D25ECE33-0191-40BE-A462-1DC14658601F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Domain", "TechChallenge.Domain\TechChallenge.Domain.csproj", "{1CF09C42-6B80-4D44-89EF-C2DFB26ACB96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Data", "TechChallenge.Data\TechChallenge.Data.csproj", "{650C81D7-F513-4A3F-9473-D9A4B6A5547F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechChallenge.Test", "TechChallenge.Test\TechChallenge.Test.csproj", "{B2425F04-64E1-4F83-BD3A-9CC380044E25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{650C81D7-F513-4A3F-9473-D9A4B6A5547F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{650C81D7-F513-4A3F-9473-D9A4B6A5547F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{650C81D7-F513-4A3F-9473-D9A4B6A5547F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2425F04-64E1-4F83-BD3A-9CC380044E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2425F04-64E1-4F83-BD3A-9CC380044E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2425F04-64E1-4F83-BD3A-9CC380044E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2425F04-64E1-4F83-BD3A-9CC380044E25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
