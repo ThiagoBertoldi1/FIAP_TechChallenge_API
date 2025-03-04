@@ -1,3 +1,4 @@
+using Prometheus;
 using TechChallenge.API.DI;
 using TechChallenge.API.Middlewares;
 
@@ -9,6 +10,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.DIRepositoriesService();
 builder.Services.DIMediatorService();
 builder.Services.DIMemoryCacheService();
+builder.Services.AddMetrics();
 
 var app = builder.Build();
 
@@ -18,6 +20,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapMetrics();
 app.UseMiddleware<ApiErrorMiddleware>();
 
 app.UseHttpsRedirection();
