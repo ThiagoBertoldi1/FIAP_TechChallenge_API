@@ -1,0 +1,31 @@
+name: .NET CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore dependencies
+        run: dotnet restore ./TechChallenge.API.sln
+
+      - name: Build project
+        run: dotnet build ./TechChallenge.API.sln --configuration Release
+
+      - name: Run tests
+        run: dotnet test ./TechChallenge.API.sln --configuration Release --no-build --verbosity normal
