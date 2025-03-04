@@ -5,4 +5,4 @@ scrape_configs:
   
 - job_name: 'dotnet-app'
   static_configs:
-  - targets: ['https://localhost:7165', 'http://localhost:5217']
+  - targets: ['dotnet-api']

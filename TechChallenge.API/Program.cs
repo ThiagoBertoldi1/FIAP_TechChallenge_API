@@ -12,6 +12,11 @@ builder.Services.DIMediatorService();
 builder.Services.DIMemoryCacheService();
 builder.Services.AddMetrics();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -23,7 +28,7 @@ if (app.Environment.IsDevelopment())
 app.MapMetrics();
 app.UseMiddleware<ApiErrorMiddleware>();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
