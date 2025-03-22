@@ -3,7 +3,7 @@ name: .NET CI/CD
 on: [push, pull_request]
 
 env:
-  API_BASE_URL: "http://dotnet-api:80"
+  API_BASE_URL: "http://dotnet-api:7165"
 
 jobs:
   test:
