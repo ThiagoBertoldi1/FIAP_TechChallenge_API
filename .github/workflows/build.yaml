@@ -10,15 +10,15 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Criar rede Docker
+      - name: Criar rede Docker (se necessário)
         run: docker network create monitoring || true
 
-      - name: Instalar Docker Compose
-        run: sudo apt-get update && sudo apt-get install -y docker-compose
-        
       - name: Subir containers com Docker Compose
-        run: docker-compose up -d
-
+        run: docker compose up -d
+      
+      - name: Aguardar containers subirem
+        run: sleep 10  # Espera 10 segundos para garantir que os serviços iniciaram
+      
       - name: Verificar se os containers estão rodando
         run: docker ps
 
@@ -30,8 +30,8 @@ jobs:
       - name: Restaurar dependências
         run: dotnet restore
 
-      - name: Rodar testes
-        run: dotnet test --logger trx
+      - name: Rodar testes com logs detalhados
+        run: dotnet test ./TechChallenge.API.sln --configuration Release --no-build --verbosity normal --logger trx
 
       - name: Finalizar containers
-        run: docker-compose down
+        run: docker compose down
