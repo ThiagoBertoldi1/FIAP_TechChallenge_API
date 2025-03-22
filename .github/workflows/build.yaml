@@ -13,6 +13,9 @@ jobs:
       - name: Criar rede Docker
         run: docker network create monitoring || true
 
+      - name: Instalar Docker Compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose
+        
       - name: Subir containers com Docker Compose
         run: docker-compose up -d
 
