@@ -6,45 +6,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      dotnet-api:
-        image: mcr.microsoft.com/dotnet/aspnet:8.0
-        ports:
-          - 7165:80
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-        options: --network monitoring
-
-      prometheus:
-        image: prom/prometheus:latest
-        ports:
-          - 9090:9090
-        options: --network monitoring
-
-      grafana:
-        image: grafana/grafana:latest
-        ports:
-          - 3001:3000
-        env:
-          GF_SECURITY_ADMIN_PASSWORD: admin
-        options: --network monitoring
-
-      db:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        ports:
-          - 1433:1433
-        env:
-          ACCEPT_EULA: "Y"
-          MSSQL_SA_PASSWORD: "MinhaSenhaForte123!"
-        options: --network monitoring
-
-    env:
-      API_BASE_URL: "http://dotnet-api:80"
-      PROMETHEUS_URL: "http://prometheus:9090"
-
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
+
+      - name: Criar rede Docker
+        run: docker network create monitoring || true
+
+      - name: Subir containers com Docker Compose
+        run: docker-compose up -d
+
+      - name: Verificar se os containers estão rodando
+        run: docker ps
 
       - name: Instalar .NET SDK
         uses: actions/setup-dotnet@v3
@@ -56,3 +29,6 @@ jobs:
 
       - name: Rodar testes
         run: dotnet test --logger trx
+
+      - name: Finalizar containers
+        run: docker-compose down
