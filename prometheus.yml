@@ -5,6 +5,7 @@ scrape_configs:
   - job_name: "dotnet-app"
     static_configs:
       - targets: ["dotnet-api"]
-  - job_name: "node"
+
+  - job_name: 'aspnetcore'
     static_configs:
-      - targets: ["node-exporter:9100"]
+      - targets: ['dotnet-api']

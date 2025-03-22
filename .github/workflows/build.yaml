@@ -1,34 +1,58 @@
 name: .NET CI/CD
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-env:
-  API_BASE_URL: "http://dotnet-api:7165"
+on: [push, pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
+    services:
+      dotnet-api:
+        image: mcr.microsoft.com/dotnet/aspnet:8.0
+        ports:
+          - 7165:80
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+        options: --network monitoring
+
+      prometheus:
+        image: prom/prometheus:latest
+        ports:
+          - 9090:9090
+        options: --network monitoring
+
+      grafana:
+        image: grafana/grafana:latest
+        ports:
+          - 3001:3000
+        env:
+          GF_SECURITY_ADMIN_PASSWORD: admin
+        options: --network monitoring
+
+      db:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: "Y"
+          MSSQL_SA_PASSWORD: "MinhaSenhaForte123!"
+        options: --network monitoring
+
+    env:
+      API_BASE_URL: "http://dotnet-api:80"
+      PROMETHEUS_URL: "http://prometheus:9090"
+
     steps:
-      - name: Check out the repository
+      - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Set up .NET
+      - name: Instalar .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0'
 
-      - name: Restore dependencies
-        run: dotnet restore ./TechChallenge.API.sln
+      - name: Restaurar dependências
+        run: dotnet restore
 
-      - name: Build project
-        run: dotnet build ./TechChallenge.API.sln --configuration Release
-
-      - name: Run tests
-        run: dotnet test ./TechChallenge.API.sln --configuration Release --no-build --verbosity normal
+      - name: Rodar testes
+        run: dotnet test --logger trx
