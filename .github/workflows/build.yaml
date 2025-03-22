@@ -31,7 +31,8 @@ jobs:
         run: dotnet restore
 
       - name: Rodar testes com logs detalhados
-        run: dotnet test ./TechChallenge.API.sln --configuration Release --no-build --verbosity normal --logger trx
+        run: dotnet test ./TechChallenge.API.sln --configuration Release --verbosity normal --logger trx
+
 
       - name: Finalizar containers
         run: docker compose down
