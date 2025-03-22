@@ -9,7 +9,7 @@ on:
       - master
 
 env:
-  API_BASE_URL: "http://dotnet-api:5000/"
+  API_BASE_URL: "http://dotnet-api:7165/"
 
 jobs:
   build:
