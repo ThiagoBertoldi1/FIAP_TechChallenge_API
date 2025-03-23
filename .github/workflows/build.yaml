@@ -36,6 +36,9 @@ jobs:
       - name: Restaurar dependências
         run: dotnet restore
 
+      - name: Testar API manualmente
+        run: curl -v http://dotnet-api:80/metrics || exit 1
+
       - name: Rodar testes com logs detalhados
         run: dotnet test ./TechChallenge.API.sln --configuration Release --verbosity normal --logger trx
         env:
