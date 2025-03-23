@@ -12,12 +12,9 @@ jobs:
 
       - name: Criar rede Docker
         run: docker network create monitoring || true
-
-      - name: Build da API (necessário)
-        run: docker compose build dotnet-api
       
       - name: Subir containers com Docker Compose
-        run: docker compose up -d
+        run: docker compose up -d --build
       
       - name: Aguardar containers subirem
         run: sleep 15
