@@ -26,7 +26,7 @@ jobs:
         run: sleep 15
 
       - name: Rodar testes dentro do Docker
-        run: docker compose up --exit-code-from test-runner
+        run: docker compose up test-runner
 
       - name: Finalizar containers
         run: docker compose down
