@@ -39,10 +39,8 @@ jobs:
       - name: Testar API manualmente
         run: curl -v http://dotnet-api:80/metrics || exit 1
 
-      - name: Rodar testes com logs detalhados
-        run: dotnet test ./TechChallenge.API.sln --configuration Release --verbosity normal --logger trx
-        env:
-          API_BASE_URL: "http://dotnet-api:80"
+      - name: Rodar testes dentro do Docker
+        run: docker compose up --exit-code-from test-runner
 
       - name: Finalizar containers
         run: docker compose down
