@@ -4,7 +4,7 @@ using System.Net;
 namespace TechChallenge.Test.IntegrationTests;
 public class MetricsIntegrationTests
 {
-    private readonly HttpClient _client = new() { BaseAddress = new Uri(Environment.GetEnvironmentVariable("API_BASE_URL") ?? "http://localhost:7165") };
+    private readonly HttpClient _client = new() { BaseAddress = new Uri("http://dotnet-api:80") };
     [Fact]
     public async Task MetricsEndpoint_ShouldReturn_Success_And_Contain_Metric_Api_Request_Count()
     {
