@@ -1,4 +1,4 @@
-# TechChallenge.API
+# Projeto TechChallenge.API
 
 ## Imagem do SQL Server usada para rodar o banco no Docker Desktop
 
@@ -7,6 +7,7 @@ mcr.microsoft.com/mssql/server:2022-latest
 ```
 
 ## Environment Variables do container do Docker
+
 ```bash
 ACCEPT_EULA=Y
 SA_PASSWORD=AquiVaiSuaSenhaForte
