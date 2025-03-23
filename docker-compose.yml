@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: TechChallenge.API/Dockerfile
-    image: mcr.microsoft.com/dotnet/aspnet:8.0
     ports:
       - "7165:80"
     environment:
@@ -42,7 +41,6 @@ services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: db
-    restart: always
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "MinhaSenhaForte123!"

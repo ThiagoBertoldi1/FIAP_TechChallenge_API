@@ -16,6 +16,9 @@ jobs:
       - name: Criar rede Docker (se necessário)
         run: docker network create monitoring || true
 
+      - name: Build da API
+        run: docker compose build dotnet-api
+      
       - name: Subir containers com Docker Compose
         run: docker compose up -d
       
@@ -35,7 +38,6 @@ jobs:
 
       - name: Rodar testes com logs detalhados
         run: dotnet test ./TechChallenge.API.sln --configuration Release --verbosity normal --logger trx
-
 
       - name: Finalizar containers
         run: docker compose down
