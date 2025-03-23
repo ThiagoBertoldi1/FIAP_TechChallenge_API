@@ -25,6 +25,9 @@ jobs:
       - name: Aguardar containers subirem
         run: sleep 10 
       
+      - name: Verificar logs da API
+        run: docker logs dotnet-api || true
+
       - name: Verificar se os containers estão rodando
         run: docker ps
 
