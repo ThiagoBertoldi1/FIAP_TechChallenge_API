@@ -10,10 +10,14 @@ using TechChallenge.Domain.Interface;
 using TechChallenge.Domain.Validations;
 using TechChallenge.Infra.Helpers.Cache;
 using TechChallenge.Infra.Helpers.DDD;
+using TechChallenge.Infra.RabbitMQ;
 using TechChallenge.Infra.Responses;
 
 namespace TechChallenge.Domain.Commands.ContactCommands;
-public class ContactHandler(IMemoryCache memoryCache, IContactRepository contactRepository) :
+public class ContactHandler(
+    IMemoryCache memoryCache,
+    IContactRepository contactRepository,
+    IRabbitMQ rabbitMQ) :
     IRequestHandler<GetContactListCommand, ResponseBase<List<Contact>>>,
     IRequestHandler<CreateContactCommand, ResponseBase<string>>,
     IRequestHandler<UpdateContactCommand, ResponseBase<string>>,
@@ -21,6 +25,7 @@ public class ContactHandler(IMemoryCache memoryCache, IContactRepository contact
 {
     private readonly IContactRepository _contactRepository = contactRepository;
     private readonly IMemoryCache _memoryCache = memoryCache;
+    private readonly IRabbitMQ _rabbitMQ = rabbitMQ;
 
     private readonly MemoryCacheEntryOptions _cacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
 
@@ -45,9 +50,7 @@ public class ContactHandler(IMemoryCache memoryCache, IContactRepository contact
         entity.District = district;
         entity.Region = region;
 
-        var inserted = await _contactRepository.InsertAsync(entity, cancellationToken);
-        if (!inserted)
-            return ResponseBase<string>.Error(HttpStatusCode.InternalServerError, ["Usuário não inserido"]);
+        await _rabbitMQ.Publish("Contact.Queue.Insert", entity);
 
         return ResponseBase<string>.Success("Contato criado com sucesso.");
     }

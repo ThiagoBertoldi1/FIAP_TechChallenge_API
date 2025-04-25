@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.DIRepositoriesService();
 builder.Services.DIMediatorService();
 builder.Services.DIMemoryCacheService();
+builder.Services.DIRabbitMQService();
 builder.Services.AddMetrics();
 
 builder.WebHost.ConfigureKestrel(options =>
