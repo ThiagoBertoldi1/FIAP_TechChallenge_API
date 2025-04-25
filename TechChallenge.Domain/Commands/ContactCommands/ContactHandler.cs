@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using MediatR;
+using Microsoft.Extensions.Caching.Memory;
+using System.Net;
 using TechChallenge.Domain.Commands.ContactCommands.Create;
 using TechChallenge.Domain.Commands.ContactCommands.Delete;
 using TechChallenge.Domain.Commands.ContactCommands.Select;
