@@ -12,7 +12,7 @@ public class RabbitMQService : IRabbitMQ
         using var channel = await conn.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
-            queue: "Contact.Queue.Insert",
+            queue,
             durable: true,
             exclusive: false,
             autoDelete: false,
@@ -22,7 +22,7 @@ public class RabbitMQService : IRabbitMQ
 
         await channel.BasicPublishAsync(
                exchange: string.Empty,
-               routingKey: "Contact.Queue.Insert",
+               routingKey: queue,
                mandatory: true,
                basicProperties: new BasicProperties { Persistent = true },
                body);
