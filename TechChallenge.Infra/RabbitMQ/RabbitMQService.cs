@@ -7,6 +7,9 @@ public class RabbitMQService : IRabbitMQ
 {
     public async Task Publish<T>(string queue, T data)
     {
+        if (string.IsNullOrEmpty(queue) || data is null)
+            throw new ArgumentNullException(nameof(queue));
+
         var factory = new ConnectionFactory { HostName = "rabbitmq" };
         using var conn = await factory.CreateConnectionAsync();
         using var channel = await conn.CreateChannelAsync();
