@@ -1,13 +1,14 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
+using TechChallenge.Infra.Helpers.ValidQueuePublish;
 
 namespace TechChallenge.Infra.RabbitMQ;
 public class RabbitMQService : IRabbitMQ
 {
-    public async Task Publish<T>(string queue, T data)
+    public async Task Publish<T>(string? queue, T data)
     {
-        if (string.IsNullOrEmpty(queue) || data is null)
+        if (QueuePublishValidation.Validation(queue, data))
             throw new ArgumentNullException(nameof(queue));
 
         var factory = new ConnectionFactory { HostName = "rabbitmq" };
