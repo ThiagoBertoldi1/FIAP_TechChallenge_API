@@ -8,7 +8,7 @@ public class RabbitMQService : IRabbitMQ
 {
     public async Task Publish<T>(string? queue, T data)
     {
-        if (QueuePublishValidation.Validation(queue, data))
+        if (!QueuePublishValidation.Validation(queue, data))
             throw new ArgumentNullException(nameof(queue));
 
         var factory = new ConnectionFactory { HostName = "rabbitmq" };
@@ -16,7 +16,7 @@ public class RabbitMQService : IRabbitMQ
         using var channel = await conn.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
-            queue,
+            queue!,
             durable: true,
             exclusive: false,
             autoDelete: false,
@@ -26,7 +26,7 @@ public class RabbitMQService : IRabbitMQ
 
         await channel.BasicPublishAsync(
                exchange: string.Empty,
-               routingKey: queue,
+               routingKey: queue!,
                mandatory: true,
                basicProperties: new BasicProperties { Persistent = true },
                body);
