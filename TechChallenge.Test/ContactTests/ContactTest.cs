@@ -30,14 +30,60 @@ public class ContactTest
     [MemberData(nameof(ValidContacts))]
     public void Contact_ShouldBeValid(Contact contact)
     {
-        try
-        {
-            new ContactValidation().ContactValidator(contact);
-            Assert.True(true);
-        }
-        catch
-        {
-            Assert.True(false);
-        }
+        var exception = Record.Exception(() => new ContactValidation().ContactValidator(contact));
+
+        Assert.Null(exception);
+    }
+
+    public static IEnumerable<object[]> ValidRegions =>
+        [
+            [new Contact { Region = "Sul" }],
+            [new Contact { Region = "Sudeste" }],
+            [new Contact { Region = "Norte" }],
+        ];
+    [Theory]
+    [MemberData(nameof(ValidRegions))]
+    public void Regions_ShouldBeValid(Contact contact)
+    {
+        Assert.True(!string.IsNullOrEmpty(contact.Region));
+    }
+
+    public static IEnumerable<object[]> InvalidRegions =>
+        [
+            [new Contact { Region = "" }],
+            [new Contact { Region = string.Empty }],
+            [new Contact { Region = null }],
+        ];
+    [Theory]
+    [MemberData(nameof(InvalidRegions))]
+    public void Regions_ShouldntBeValid(Contact contact)
+    {
+        Assert.True(string.IsNullOrEmpty(contact.Region));
+    }
+
+    public static IEnumerable<object[]> ValidDistrict =>
+        [
+            [new Contact { District = "SC" }],
+            [new Contact { District = "PR" }],
+            [new Contact { District = "SP" }],
+        ];
+    [Theory]
+    [MemberData(nameof(ValidDistrict))]
+    public void District_ShouldBeValid(Contact contact)
+    {
+        Assert.True(string.IsNullOrEmpty(contact.Region));
+    }
+
+    public static IEnumerable<object[]> InvalidDistrict =>
+        [
+            [new Contact { District = "" }],
+            [new Contact { District = string.Empty }],
+            [new Contact { District = null }],
+        ];
+    [Theory]
+    [MemberData(nameof(InvalidDistrict))]
+    public void District_ShouldntBeValid(Contact contact)
+    {
+        Assert.True(string.IsNullOrEmpty(contact.Region));
     }
 }
