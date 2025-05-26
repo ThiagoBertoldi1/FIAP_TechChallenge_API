@@ -7,7 +7,7 @@ public class ContactTest
 {
     public static IEnumerable<object[]> InvalidContacts =>
         [
-            [new Contact { Name = "Pessoa1", Email = "pessoa1", PhoneNumber = 47991598535 }],
+            [new Contact { Name = "Pessoa", Email = "pessoa1", PhoneNumber = 47991598535 }],
             [new Contact { Name = "Pessoa2", Email = "pessoa2@gmail.com", PhoneNumber = 4799133 }],
             [new Contact { Name = "Pe", Email = "pessoa3@gmail.com", PhoneNumber = 4799133 }]
         ];
