@@ -12,6 +12,7 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - app-network
+      - external-network
 
   dotnet-api:
     container_name: dotnet-api
@@ -86,6 +87,7 @@ services:
       - "1433:1433"
     networks:
       - monitoring
+      - external-network
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
@@ -100,6 +102,8 @@ networks:
     driver: bridge
   app-network:
     driver: bridge
+  external-network:
+    external: true
 
 volumes:
   grafana-storage:
