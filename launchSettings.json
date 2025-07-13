@@ -3,8 +3,19 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "dotnet-api",
+      "composeLaunchUrl": "http://localhost:7165/swagger/index.html",
       "serviceActions": {
-        "api-dotnet": "StartDebugging"
+        "dotnet-api": "StartDebugging",
+        "db": "StartDebugging",
+        "rabbitmq": "StartWithoutDebugging",
+        "prometheus": "StartWithoutDebugging",
+        "grafana": "StartWithoutDebugging",
+        "node_exporter": "StartWithoutDebugging"
+      },
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

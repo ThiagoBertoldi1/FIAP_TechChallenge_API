@@ -16,9 +16,11 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Criar rede Docker
-        run: docker network create monitoring || true
-      
+      - name: Criar redes Docker externas
+        run: |
+          docker network create monitoring || true
+          docker network create external-network || true
+
       - name: Subir containers com Docker Compose
         run: docker compose up -d --build
       
