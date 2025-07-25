@@ -6,6 +6,8 @@ new CpuMetricsCollector().StartMonitoring();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,7 +19,7 @@ builder.Services.AddMetrics();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(80);
+    options.ListenAnyIP(3000);
 });
 
 var app = builder.Build();

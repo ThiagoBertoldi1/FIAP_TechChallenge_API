@@ -8,7 +8,7 @@ using static Dapper.SqlMapper;
 namespace TechChallenge.Data.Base;
 public class CrudRepository<T>(IConfiguration configuration) : ICrudRepository<T> where T : IEntity
 {
-    protected readonly string _connString = configuration["ConnectionStrings:ConnString"]!;
+    protected readonly string _connString = configuration["CONNECTION_STRING"]!;
 
     public async Task<T?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
@@ -17,21 +17,21 @@ public class CrudRepository<T>(IConfiguration configuration) : ICrudRepository<T
         var sql = $"SELECT * FROM dbo.{tableName} WITH (NOLOCK) WHERE Id = @id ";
 
         using var conn = new SqlConnection(_connString);
-        await conn.OpenAsync(cancellationToken);
+        await conn.OpenAsync();
         return await conn.QueryFirstOrDefaultAsync<T>(sql, param: new { id });
     }
 
     public async Task<List<T>> RawQueryAsync(string sql, CancellationToken cancellationToken = default)
     {
         using var conn = new SqlConnection(_connString);
-        await conn.OpenAsync(cancellationToken);
-        return (await conn.QueryAsync<T>(sql, cancellationToken)).ToList();
+        await conn.OpenAsync();
+        return (await conn.QueryAsync<T>(sql)).ToList();
     }
 
     public async Task<T?> RawQueryFirstOrDefaultAsync(string sql, CancellationToken cancellationToken = default)
     {
         using var conn = new SqlConnection(_connString);
-        await conn.OpenAsync(cancellationToken);
-        return await conn.QueryFirstOrDefaultAsync<T?>(sql, cancellationToken);
+        await conn.OpenAsync();
+        return await conn.QueryFirstOrDefaultAsync<T?>(sql);
     }
 }
