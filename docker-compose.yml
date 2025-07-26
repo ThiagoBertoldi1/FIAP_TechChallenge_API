@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: TechChallenge.API/Dockerfile
     ports:
-      - "7165:80"
+      - "7165:3000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     networks:

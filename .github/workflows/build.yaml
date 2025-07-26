@@ -21,14 +21,21 @@ jobs:
           docker network create monitoring || true
           docker network create external-network || true
 
+      - name: Exportar variável de ambiente
+        run: echo "CONNECTION_STRING=${{ secrets.CONNECTION_STRING }}" >> $GITHUB_ENV
+
       - name: Subir containers com Docker Compose
         run: docker compose up -d --build
-      
+        env:
+          CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
+
       - name: Aguardar containers subirem
         run: sleep 15
 
       - name: Rodar testes dentro do Docker
         run: docker compose up test-runner
+        env:
+          CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
 
       - name: Finalizar containers
         run: docker compose down

@@ -6,9 +6,10 @@ using TechChallenge.Infra.Responses;
 
 namespace TechChallenge.API.Middlewares;
 
-public class ApiErrorMiddleware(RequestDelegate next)
+public class ApiErrorMiddleware(RequestDelegate next, ILogger<ApiErrorMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
+    private readonly ILogger<ApiErrorMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -22,8 +23,10 @@ public class ApiErrorMiddleware(RequestDelegate next)
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        _logger.LogError(exception, "Erro: {Message}", exception.Message);
+
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = StatusCodes.Status400BadRequest; // Sempre vai ser 400
 
