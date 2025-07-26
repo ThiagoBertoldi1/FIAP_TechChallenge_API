@@ -16,6 +16,7 @@ services:
 
   dotnet-api:
     container_name: dotnet-api
+    image: techchallengeapi-dotnet-api
     build:
       context: .
       dockerfile: TechChallenge.API/Dockerfile
