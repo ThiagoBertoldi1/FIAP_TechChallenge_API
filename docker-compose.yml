@@ -43,9 +43,8 @@ services:
     depends_on:
       - dotnet-api
     command: >
-      sh -c "dotnet restore &&
+      sh -c "dotnet restore ./TechChallenge.API.sln &&
              dotnet test ./TechChallenge.API.sln --configuration Release --verbosity normal --logger trx"
-
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
